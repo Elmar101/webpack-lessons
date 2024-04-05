@@ -31,7 +31,8 @@ module.exports = {
 Lessons 2
 
 create src folder => create js folder in src folder
-created dist folder => create "js, css, img" folder in dist
+created dist folder => create "js, css, img" folder and index.html fayle in dist
+
 sonra gedib webpack.config.js faylinda path leri duzeldek
 const path = require('path'); - node js moduludur dosyalarin yolunu vermek ichin yada teyin etmek ichin
 ----***************************---------------------
@@ -76,4 +77,76 @@ module.exports = {
     port: 3010, // default 8000
   },
 }
---------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------PLUGIN-----------------------------------------------------------------------------------------------
+PLUGIN => Koddlari sixisdirip dishariya gonderir ve ya ts ile yazilan koddu js chevirip dishariya gonderir ve ya 
+babel araciliqi ile es6 yada es7 ile yazilan koddu es5 standartlarina chevirib gonderir
+
+1 ci html pluginnini install edek "npm install  html-webpack-plugin -D" => html plugin html seyfelerini dinamik özi yaradacaq ve dişariya açacaq
+dist folderini sil , npm run webpack:start komutunu çalışdırdıqda özi yaradacaq və 
+plugins:[
+    new HtmlWebpackPlugin({
+        
+    })
+] Bu koddu webpack.config.js faylina elave et
+
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+    entry: './src/js/index.js',
+    output:{
+        path: path.resolve(__dirname, 'dist'), 
+        filename: './js/bundle.js'
+    },
+    // watch: true,
+    
+   devServer: {
+    static: {
+      directory: path.join(__dirname, "./dist")
+    },
+
+    compress: true,
+    port: 3010, // default 8000
+  },
+  plugins:[
+    new HtmlWebpackPlugin({
+        
+    })
+  ]
+   //  mode: 'development', // 'production' default  value if we dont write mode property now we skip package.json file look at there 
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+ plugins:[
+  new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: './src/index.html'
+  })
+]
+
+Bir eded src altinda index.html seyfesi yaradaq sonra biz bu seyfenin bundle olduqu zaman dist -in altindaki index.html le yuklenmesini temin edek usdeki kodla 
+
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+    entry: './src/js/index.js',
+    output:{
+        path: path.resolve(__dirname, 'dist'), 
+        filename: './js/bundle.js'
+    },
+   devServer: {
+    static: {
+      directory: path.join(__dirname, "./dist")
+    },
+
+    compress: true,
+    port: 3010, // default 8000
+  },
+  plugins:[
+    new HtmlWebpackPlugin({
+        filename: 'index.html',
+        template: './src/index.html'
+    })
+  ] 
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------------
